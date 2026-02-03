@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -9,28 +10,40 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $roles = Role::with('permissions')->get();
+        $roles = Role::all();
         return view('roles.index', compact('roles'));
     }
 
     public function create()
     {
+        // Use correct Permission model
         $permissions = Permission::all();
         return view('roles.create', compact('permissions'));
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|unique:roles,name',
-            'permissions' => 'array'
-        ]);
+ public function store(Request $request)
+{
+  dd($request->all());
+    $request->validate([
+        'name' => 'required|unique:roles,name',
+        'guard_name' => 'nullable|string',
+    ]);
 
-        $role = Role::create(['name' => $request->name]);
+    // No 'id' field required — model will generate UUID
+    $role = Role::create([
+        'name' => $request->name,
+        'guard_name' => $request->guard_name ?? 'web',
+    ]);
+
+    if ($request->permissions) {
         $role->syncPermissions($request->permissions);
-
-        return redirect()->route('roles.index')->with('success', 'Role created');
     }
+
+    return redirect()->route('roles.index')
+                     ->with('success', 'Role created successfully.');
+}
+
+
 
     public function edit(Role $role)
     {
@@ -41,18 +54,26 @@ class RoleController extends Controller
     public function update(Request $request, Role $role)
     {
         $request->validate([
-            'name' => 'required|unique:roles,name,' . $role->id
+            'name' => 'required|unique:roles,name,' . $role->id,
+            'guard_name' => 'nullable|string'
         ]);
 
-        $role->update(['name' => $request->name]);
-        $role->syncPermissions($request->permissions);
+        $role->update([
+            'name' => $request->name,
+            'guard_name' => $request->guard_name ?? 'web',
+        ]);
 
-        return redirect()->route('roles.index')->with('success', 'Role updated');
+        if ($request->permissions) {
+            $role->syncPermissions($request->permissions);
+        }
+
+        return redirect()->route('roles.index')
+                         ->with('success', 'Role updated successfully.');
     }
 
     public function destroy(Role $role)
     {
         $role->delete();
-        return back()->with('success', 'Role deleted');
+        return back()->with('success', 'Role deleted successfully.');
     }
 }
