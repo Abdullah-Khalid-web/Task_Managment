@@ -44,6 +44,12 @@ use App\Http\Controllers\form_layouts\VerticalForm;
 use App\Http\Controllers\form_layouts\HorizontalForm;
 use App\Http\Controllers\tables\Basic as TablesBasic;
 
+
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\UserController;
+
+
 // Main Page Route
 Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');
 
@@ -107,3 +113,14 @@ Route::get('/form/layouts-horizontal', [HorizontalForm::class, 'index'])->name('
 
 // tables
 Route::get('/tables/basic', [TablesBasic::class, 'index'])->name('tables-basic');
+
+
+Route::get('/users', [UserController::class, 'index'])->name('index');
+Route::get('/adduser', [UserController::class, 'create'])->name('create');
+Route::get('/editUser', [UserController::class, 'edit'])->name('edit');
+Route::resource('users', UserController::class);
+
+
+
+Route::resource('roles', RoleController::class);
+Route::resource('permissions', PermissionController::class);
