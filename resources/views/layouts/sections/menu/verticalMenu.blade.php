@@ -6,72 +6,89 @@ use Illuminate\Support\Facades\Route;
     <!-- ! Hide app brand if navbar-full -->
     <div class="app-brand demo">
         <a href="{{url('/')}}" class="app-brand-link">
-            <span class="app-brand-logo demo me-1">@include('_partials.macros')</span>
-            <span class="app-brand-text demo menu-text fw-semibold ms-2">{{config('variables.templateName')}}</span>
+            <span class="app-brand-logo">@include('_partials.macros')</span>
+
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
-            <i class="menu-toggle-icon d-xl-inline-block align-middle"></i>
+
         </a>
     </div>
 
     <div class="menu-inner-shadow"></div>
 
     <ul class="menu-inner py-1">
-        @foreach ($menuData[0]->menu as $menu)
-
-        {{-- adding active and open class if child is active --}}
-
-        {{-- menu headers --}}
-        @if (isset($menu->menuHeader))
-        <li class="menu-header mt-7">
-            <span class="menu-header-text">{{ __($menu->menuHeader) }}</span>
-        </li>
-        @else
-
-        {{-- active menu method --}}
-        @php
-        $activeClass = null;
-        $currentRouteName = Route::currentRouteName();
-
-        if ($currentRouteName === $menu->slug) {
-        $activeClass = 'active';
-        }
-        elseif (isset($menu->submenu)) {
-        if (gettype($menu->slug) === 'array') {
-        foreach($menu->slug as $slug){
-        if (str_contains($currentRouteName,$slug) and strpos($currentRouteName,$slug) === 0) {
-        $activeClass = 'active open';
-        }
-        }
-        }
-        else{
-        if (str_contains($currentRouteName,$menu->slug) and strpos($currentRouteName,$menu->slug) === 0) {
-        $activeClass = 'active open';
-        }
-        }
-        }
-        @endphp
-
-        {{-- main menu --}}
-        <li class="menu-item {{$activeClass}}">
-            <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}" class="{{ isset($menu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }}" @if (isset($menu->target) and !empty($menu->target)) target="_blank" @endif>
-                @isset($menu->icon)
-                <i class="{{ $menu->icon }}"></i>
-                @endisset
-                <div>{{ isset($menu->name) ? __($menu->name) : '' }}</div>
-                @isset($menu->badge)
-                <div class="badge rounded-pill bg-{{ $menu->badge[0] }} rounded-pill ms-auto">{{ $menu->badge[1] }}</div>
-                @endisset
+        <li class="menu-item {{ request()->is('dashboard*') ? 'active' : '' }}">
+            <a href="{{ url('/') }}" class="menu-link">
+                <div>Dashboard</div>
             </a>
-
-            {{-- submenu --}}
-            @isset($menu->submenu)
-            @include('layouts.sections.menu.submenu',['menu' => $menu->submenu])
-            @endisset
         </li>
-        @endif
-        @endforeach
+        <li class="menu-item {{ request()->is('projects*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <div>Project/Meeting</div>
+            </a>
+            <ul class="menu-sub">
+                <li>
+                    <a href="#" class="menu-link">
+                        <div>View Projects</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-link">
+                        <div>Meetings Schedule</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="menu-item {{ request()->is('tasks*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <div>Tasks</div>
+            </a>
+            <ul class="menu-sub">
+                <li>
+                    <a href="#" class="menu-link">
+                        <div>All Tasks</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-link">
+                        <div>Assigned to Me</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="menu-item {{ request()->is('users*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <div>Users</div>
+            </a>
+            <ul class="menu-sub">
+                <li>
+                    <a href="#" class="menu-link">
+                        <div>User List</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="menu-item {{ request()->is('roles*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <div>Roles</div>
+            </a>
+            <ul class="menu-sub">
+                <li>
+                    <a href="#" class="menu-link">
+                        <div>Manage Roles</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-link">
+                        <div>Permissions</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
     </ul>
 
 </aside>

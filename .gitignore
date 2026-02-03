@@ -26,3 +26,7 @@ yarn-error.log
 !/public/assets/*
 /public/css
 /public/js
+
+
+.env
+composer.lock

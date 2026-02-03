@@ -33,15 +33,18 @@ use Illuminate\Support\Facades\Route;
     <!-- /Search -->
     <ul class="navbar-nav flex-row align-items-center ms-auto">
         <!-- Place this tag where you want the button to render. -->
-        <li class="nav-item lh-1 me-4">
+        <!-- <li class="nav-item lh-1 me-4">
             <a class="github-button" href="{{config('variables.repository')}}" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star themeselection/sneat-html-laravel-admin-template-free on GitHub">Star</a>
-        </li>
+        </li> -->
 
         <!-- User -->
         <li class="nav-item navbar-dropdown dropdown-user dropdown">
             <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
                 <div class="avatar avatar-online">
-                    <img src="{{ asset('assets/img/avatars/1.png') }}" alt="alt" class="rounded-circle" />
+                    <img src="{{ asset('assets/json/img/avatars/1.png') }}"
+                        alt="alt"
+                        class="rounded-circle">
+
                 </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
@@ -50,7 +53,7 @@ use Illuminate\Support\Facades\Route;
                         <div class="d-flex">
                             <div class="flex-shrink-0 me-3">
                                 <div class="avatar avatar-online">
-                                    <img src="{{ asset('assets/img/avatars/1.png') }}" alt="alt" class="w-px-40 h-auto rounded-circle" />
+                                    <img src="{{ asset('assets/json/img/avatars/1.png') }}" alt="alt" class="w-px-40 h-auto rounded-circle" />
                                 </div>
                             </div>
                             <div class="flex-grow-1">

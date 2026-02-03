@@ -1,10 +1,11 @@
 @php
-  $width = $width ?? '30';
-  $height = $height ?? '24';
+$width = $width ?? '175';
+$height = $height ?? '70';
 @endphp
 
 <span class="text-primary">
-  <svg width="{{ $width }}" height="{{ $height }}" viewBox="0 0 250 196" fill="none"
+  <img src="{{ asset('assets/json/img/icons/logos/brsp_logo.png') }}" alt="BRSP logo " width="{{ $width }}" height="{{ $height }}">
+  <!-- <svg width="{{ $width }}" height="{{ $height }}" viewBox="0 0 250 196" fill="none"
     xmlns="http://www.w3.org/2000/svg">
     <path fill-rule="evenodd" clip-rule="evenodd"
       d="M12.3002 1.25469L56.655 28.6432C59.0349 30.1128 60.4839 32.711 60.4839 35.5089V160.63C60.4839 163.468 58.9941 166.097 56.5603 167.553L12.2055 194.107C8.3836 196.395 3.43136 195.15 1.14435 191.327C0.395485 190.075 0 188.643 0 187.184V8.12039C0 3.66447 3.61061 0.0522461 8.06452 0.0522461C9.56056 0.0522461 11.0271 0.468577 12.3002 1.25469Z"
@@ -32,5 +33,5 @@
     <path fill-rule="evenodd" clip-rule="evenodd"
       d="M237.721 1.18923L125 70.3075V136.87L250 65.2465V8.06814C250 3.61223 246.389 0 241.935 0C240.448 0 238.99 0.411583 237.721 1.18923Z"
       fill="white" fill-opacity="0.3" />
-  </svg>
+  </svg> -->
 </span>
