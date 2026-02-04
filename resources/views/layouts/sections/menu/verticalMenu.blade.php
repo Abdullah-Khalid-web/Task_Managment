@@ -46,12 +46,21 @@ use Illuminate\Support\Facades\Route;
                 <div>Project / Meeting</div>
             </a>
             <ul class="menu-sub">
-                <li><a href="{{ url('projects') }}" class="menu-link"><div>View Projects</div></a></li>
-                <li><a href="{{ url('meetings') }}" class="menu-link"><div>Meetings Schedule</div></a></li>
+                <!-- CORRECTED: Using route() helper instead of url() -->
+                <li class="{{ request()->routeIs('projects.create') ? 'active' : '' }}">
+                    <a href="{{ route('projects.create') }}" class="menu-link">
+                        <div>Add Project</div>
+                    </a>
+                </li>
+                <li class="{{ request()->routeIs('projects.index') ? 'active' : '' }}">
+                    <a href="{{ route('projects.index') }}" class="menu-link">
+                        <div>View Projects</div>
+                    </a>
+                </li>
             </ul>
         </li>
 
-        <!-- Tasks -->
+        {{-- <!-- Tasks -->
         <li class="menu-item {{ request()->is('tasks*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <span class="menu-icon">
@@ -67,8 +76,43 @@ use Illuminate\Support\Facades\Route;
                 <div>Tasks</div>
             </a>
             <ul class="menu-sub">
-                <li><a href="{{ url('tasks') }}" class="menu-link"><div>All Tasks</div></a></li>
-                <li><a href="{{ url('tasks/assigned') }}" class="menu-link"><div>Assigned to Me</div></a></li>
+                <!-- CORRECTED: Using route names (assuming you have task routes) -->
+                <li class="{{ request()->routeIs('tasks.index') ? 'active' : '' }}">
+                    <a href="{{ route('tasks.index') }}" class="menu-link">
+                        <div>All Tasks</div>
+                    </a>
+                </li>
+                <li class="{{ request()->routeIs('tasks.assigned') ? 'active' : '' }}">
+                    <a href="{{ route('tasks.assigned') }}" class="menu-link">
+                        <div>Assigned to Me</div>
+                    </a>
+                </li>
+            </ul>
+        </li> --}}
+        <!-- Tasks -->
+        <li class="menu-item {{ request()->is('tasks*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <span class="menu-icon">
+                    <i class="ri-task-line"></i>
+                </span>
+                <div>Tasks</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="{{ request()->routeIs('tasks.index') ? 'active' : '' }}">
+                    <a href="{{ route('tasks.index') }}" class="menu-link">
+                        <div>All Tasks</div>
+                    </a>
+                </li>
+                <li class="{{ request()->routeIs('tasks.assigned') ? 'active' : '' }}">
+                    <a href="{{ route('tasks.assigned') }}" class="menu-link">
+                        <div>Assigned to Me</div>
+                    </a>
+                </li>
+                <li class="{{ request()->routeIs('tasks.create') ? 'active' : '' }}">
+                    <a href="{{ route('tasks.create') }}" class="menu-link">
+                        <div>Add Task</div>
+                    </a>
+                </li>
             </ul>
         </li>
 
@@ -88,12 +132,12 @@ use Illuminate\Support\Facades\Route;
                 <div>Users Mgmt</div>
             </a>
             <ul class="menu-sub">
-                <li>
+                <li class="{{ request()->routeIs('users.create') ? 'active' : '' }}">
                     <a href="{{ route('users.create') }}" class="menu-link">
                         <div>Add User</div>
                     </a>
                 </li>
-                <li>
+                <li class="{{ request()->routeIs('users.index') ? 'active' : '' }}">
                     <a href="{{ route('users.index') }}" class="menu-link">
                         <div>Users List</div>
                     </a>
@@ -116,7 +160,7 @@ use Illuminate\Support\Facades\Route;
 
             <ul class="menu-sub">
                 <!-- Roles -->
-                <li class="{{ request()->is('roles*') ? 'active' : '' }}">
+                <li class="{{ request()->routeIs('roles.index') ? 'active' : '' }}">
                     <a href="{{ route('roles.index') }}" class="menu-link">
                         <span class="menu-icon">
                             <!-- User Shield -->
@@ -131,7 +175,7 @@ use Illuminate\Support\Facades\Route;
                 </li>
 
                 <!-- Permissions -->
-                <li class="{{ request()->is('permissions*') ? 'active' : '' }}">
+                <li class="{{ request()->routeIs('permissions.index') ? 'active' : '' }}">
                     <a href="{{ route('permissions.index') }}" class="menu-link">
                         <span class="menu-icon">
                             <!-- Key -->

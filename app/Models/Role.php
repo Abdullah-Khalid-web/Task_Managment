@@ -2,25 +2,20 @@
 
 namespace App\Models;
 
-use Spatie\Permission\Models\Role as SpatieRole;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Spatie\Permission\Models\Role as SpatieRole;
 
 class Role extends SpatieRole
 {
     use HasUuids;
 
-    protected $keyType = 'string'; // UUID is string
-    public $incrementing = false;  // Disable auto-increment
+    protected $primaryKey = 'id';
+    protected $keyType = 'string';
+    public $incrementing = false;
 
-    // Generate UUID automatically
-    protected static function boot(): void
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            if (!$model->{$model->getKeyName()}) {
-                $model->{$model->getKeyName()} = (string) \Illuminate\Support\Str::uuid();
-            }
-        });
-    }
+    protected $fillable = [
+        'id',
+        'name',
+        'guard_name',
+    ];
 }

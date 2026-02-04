@@ -31,14 +31,15 @@
                 <div class="mb-3">
                     <label class="form-label mb-2">Assign Permissions</label>
 
+                    <!-- In create.blade.php -->
                     <div class="row">
                         @foreach($permissions as $permission)
                             <div class="col-md-3 mb-2">
                                 <div class="form-check">
                                     <input class="form-check-input"
-                                           type="checkbox"
-                                           name="permissions[]"
-                                           value="{{ $permission->id }}">
+                                          type="checkbox"
+                                          name="permissions[]"
+                                          value="{{ $permission->id }}"> <!-- This should now be UUID -->
                                     <label class="form-check-label">
                                         {{ $permission->name }}
                                     </label>

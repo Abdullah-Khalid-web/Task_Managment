@@ -2,25 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Spatie\Permission\Models\Permission as SpatiePermission;
 
-class Permission extends Model
+class Permission extends SpatiePermission
 {
-    use HasFactory;
+    use HasUuids;
 
-    protected $fillable = ['id', 'name', 'guard_name'];
-
-    public $incrementing = false; // UUID primary key
+    protected $primaryKey = 'id';
     protected $keyType = 'string';
+    public $incrementing = false;
 
-    protected static function booted()
-    {
-        static::creating(function ($model) {
-            if (empty($model->id)) {
-                $model->id = (string) Str::uuid();
-            }
-        });
-    }
+    protected $fillable = [
+        'id',
+        'name',
+        'guard_name',
+    ];
 }

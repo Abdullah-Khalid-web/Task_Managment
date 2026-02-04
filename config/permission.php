@@ -25,6 +25,8 @@ return [
          */
 
         'role' => Spatie\Permission\Models\Role::class,
+            'permission' => App\Models\Permission::class,
+    'role' => App\Models\Role::class,
 
     ],
 
@@ -86,14 +88,14 @@ return [
          * that case, name this `model_uuid`.
          */
 
-        'model_morph_key' => 'model_id',
-
         /*
          * Change this if you want to use the teams feature and your related model's
          * foreign key is other than `team_id`.
          */
 
         'team_foreign_key' => 'team_id',
+        'model_morph_key' => 'model_uuid', // Change this line
+
     ],
 
     /*

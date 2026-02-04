@@ -48,6 +48,9 @@ use App\Http\Controllers\tables\Basic as TablesBasic;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProjectController; // Make sure this import exists
+use App\Http\Controllers\TaskController;
+
 
 
 // Main Page Route
@@ -124,3 +127,26 @@ Route::resource('users', UserController::class);
 
 Route::resource('roles', RoleController::class);
 Route::resource('permissions', PermissionController::class);
+Route::resource('projects', ProjectController::class);
+Route::get('tasks', [TaskController::class, 'index'])->name('tasks.index');
+Route::get('tasks/assigned', [TaskController::class, 'assigned'])->name('tasks.assigned');
+
+
+// Task routes
+Route::prefix('tasks')->group(function () {
+    Route::get('/', [TaskController::class, 'index'])->name('tasks.index');
+    Route::get('/assigned', [TaskController::class, 'assignedToMe'])->name('tasks.assigned');
+    Route::get('/create', [TaskController::class, 'create'])->name('tasks.create');
+    Route::post('/', [TaskController::class, 'store'])->name('tasks.store');
+    Route::get('/{task}', [TaskController::class, 'show'])->name('tasks.show');
+    Route::get('/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+    Route::put('/{task}', [TaskController::class, 'update'])->name('tasks.update');
+    Route::delete('/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
+
+    // Remark routes
+    Route::post('/{task}/remarks', [TaskController::class, 'addRemark'])->name('tasks.remarks.store');
+    Route::delete('/{task}/remarks/{remark}', [TaskController::class, 'deleteRemark'])->name('tasks.remarks.destroy');
+
+    // Status update
+    Route::post('/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.status.update');
+});

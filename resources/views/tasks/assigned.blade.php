@@ -1,5 +1,5 @@
 @extends('layouts/contentNavbarLayout')
-@section('title', 'All Tasks')
+@section('title', 'My Tasks')
 
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
@@ -7,12 +7,12 @@
     <!-- Page Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h4 class="fw-bold mb-0">
-            <span class="text-muted fw-light">Tasks /</span> All Tasks
+            <span class="text-muted fw-light">Tasks /</span> Assigned to Me
         </h4>
 
         <div>
-            <a href="{{ route('tasks.assigned') }}" class="btn btn-outline-primary me-2">
-                <i class="ri-user-line me-1"></i> Assigned to Me
+            <a href="{{ route('tasks.index') }}" class="btn btn-outline-secondary me-2">
+                <i class="ri-list-check-2 me-1"></i> All Tasks
             </a>
             <a href="{{ route('tasks.create') }}" class="btn btn-primary">
                 <i class="ri-add-line me-1"></i> Add Task
@@ -35,9 +35,9 @@
                         <th>Task Title</th>
                         <th>Project</th>
                         <th>Status</th>
-                        <th>Assigned To</th>
                         <th>Created By</th>
-                        <th width="120">Actions</th>
+                        <th>Created At</th>
+                        <th width="150">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,15 +58,21 @@
                                 <span class="badge bg-label-primary">{{ $task->project->title ?? 'N/A' }}</span>
                             </td>
                             <td>
-                                <span class="badge {{ $task->getStatusBadgeClass() }}">
-                                    {{ $task->getStatusText() }}
-                                </span>
-                            </td>
-                            <td>
-                                {{ $task->assignee->name ?? 'Unassigned' }}
+                                <form action="{{ route('tasks.status.update', $task->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <select name="status" class="form-select form-select-sm status-select"
+                                            onchange="this.form.submit()">
+                                        <option value="pending" {{ $task->isPending() ? 'selected' : '' }}>Pending</option>
+                                        <option value="in_progress" {{ $task->isInProgress() ? 'selected' : '' }}>In Progress</option>
+                                        <option value="completed" {{ $task->isCompleted() ? 'selected' : '' }}>Completed</option>
+                                    </select>
+                                </form>
                             </td>
                             <td>
                                 {{ $task->creator->name ?? 'N/A' }}
+                            </td>
+                            <td>
+                                {{ $task->created_at->format('M d, Y') }}
                             </td>
                             <td>
                                 <div class="d-flex gap-2">
@@ -78,22 +84,13 @@
                                        class="btn btn-sm btn-outline-warning">
                                         <i class="ri-pencil-line"></i>
                                     </a>
-                                    <form action="{{ route('tasks.destroy', $task->id) }}"
-                                          method="POST"
-                                          onsubmit="return confirm('Delete this task?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">
-                                            <i class="ri-delete-bin-6-line"></i>
-                                        </button>
-                                    </form>
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
                             <td colspan="6" class="text-center py-4 text-muted">
-                                No tasks found.
+                                No tasks assigned to you.
                             </td>
                         </tr>
                     @endforelse
@@ -107,4 +104,14 @@
     </div>
 
 </div>
+
+<style>
+.status-select {
+    min-width: 120px;
+    cursor: pointer;
+}
+.status-select:focus {
+    box-shadow: none;
+}
+</style>
 @endsection
